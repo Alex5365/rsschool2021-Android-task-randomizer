@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">randomizer</string>
+    <string name="str1">Введены не валидные данные: min > max</string>
+    <string name="str2">Введены не валидные данные: max > 2147483646</string>
+    <string name="str3">Введены не валидные данные: min меньше 0</string>
+    <string name="str4">Введены не валидные данные: не полностью заполнены поля</string>
 </resources>

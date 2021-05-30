@@ -8,16 +8,19 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
-class SecondFragment : Fragment() {
+class SecondFragment : Fragment() , OnBackPressedListener {
 
     private var backButton: Button? = null
     private var result: TextView? = null
+    private lateinit var backTransfer: BackTransfer
+    var rez: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        backTransfer = activity as BackTransfer
         return inflater.inflate(R.layout.fragment_second, container, false)
     }
 
@@ -28,17 +31,19 @@ class SecondFragment : Fragment() {
 
         val min = arguments?.getInt(MIN_VALUE_KEY) ?: 0
         val max = arguments?.getInt(MAX_VALUE_KEY) ?: 0
+        rez = generate(min, max)
 
-        result?.text = generate(min, max).toString()
+        result?.text = rez.toString()
 
         backButton?.setOnClickListener {
             // TODO: implement back
+            backTransfer.transf(rez)
         }
     }
 
     private fun generate(min: Int, max: Int): Int {
         // TODO: generate random number
-        return 0
+        return (min..max).random()
     }
 
     companion object {
@@ -47,6 +52,9 @@ class SecondFragment : Fragment() {
         fun newInstance(min: Int, max: Int): SecondFragment {
             val fragment = SecondFragment()
             val args = Bundle()
+            args.putInt(MIN_VALUE_KEY, min)
+            args.putInt(MAX_VALUE_KEY, max)
+            fragment.arguments = args
 
             // TODO: implement adding arguments
 
@@ -55,5 +63,9 @@ class SecondFragment : Fragment() {
 
         private const val MIN_VALUE_KEY = "MIN_VALUE"
         private const val MAX_VALUE_KEY = "MAX_VALUE"
+    }
+
+    override fun onBackPressed() {
+        backTransfer.transf(rez)
     }
 }
